@@ -16,6 +16,7 @@ import org.junit.Test;
  * Unit test for simple App.
  */
 public class AppTest {
+    // Adopt to your local setup: /Users/martin/Software/FHSTP/repos
     String pathCSVFile = "/Users/martin/Software/FHSTP/repos/bdt-2021/data/input/spark/Restaurants_in_Wake_County.csv";
 
     SparkSession spark;
@@ -35,7 +36,7 @@ public class AppTest {
     }
 
     @Test
-    public void shouldSetupSparkContext() {
+    public void shouldSetupSparkSession() {
         assertThat(spark, is(notNullValue()));
     }
 
