@@ -12,6 +12,7 @@ def read_file_source(spark, source):
     return spark.read.format('csv').option('header', True).load(source)
 
 def transform_columns(df):
+    '''Transforms a bunch of columns.'''
     return (df
             .withColumn('county', lit('Wake'))
             .withColumnRenamed('HSISID', 'datasetId')
@@ -32,6 +33,7 @@ def transform_columns(df):
             )
 
 def add_id_column(df):
+    '''Adds a synthetic id column.'''
     return (df
             .withColumn('id', concat(
                 df.state,
@@ -76,6 +78,12 @@ if __name__ == "__main__":
     print('*** After adding new unique ID')
     df.show(n=5)
     df.printSchema()
+
+    # Repartitioning (Exercise 9)
+
+    print(f'Partition count before repartition: {df.rdd.getNumPartitions()}')
+    df = df.repartition(4)
+    print(f'Partition count after repartition: {df.rdd.getNumPartitions()}')
 
     spark.stop()
 
