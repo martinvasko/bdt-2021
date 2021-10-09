@@ -1,5 +1,7 @@
 package at.ac.fhstp;
 
+import org.apache.spark.sql.SparkSession;
+
 /**
  * Ingest the data!
  *
@@ -12,6 +14,11 @@ public class App {
             System.exit(0);
         }
         IngestionSchemaManipulationApp app = new IngestionSchemaManipulationApp();
-        app.start(args[0]);
+        SparkSession spark = SparkSession.builder()
+                .appName("Restaurants in Wake County, NC")
+                .master("local")
+                .getOrCreate();
+        app.ingestCSV(spark, args[0]);
+        spark.stop();
     }
 }
