@@ -1,6 +1,7 @@
 import sys
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import lit
+from pyspark.sql.functions import lit, concat
+
 
 def setup_spark_session():
     '''Creates a session on a local master.'''
@@ -54,5 +55,37 @@ if __name__ == "__main__":
     df.show(n=5)
     df.printSchema()
 
+    # Unique identifier transformation (Exercise 7)
+    df = (df
+            .withColumn('id', concat(
+                df.state,
+                lit('_'),
+                df.county,
+                lit('_'),
+                df.datasetId
+                )
+            )
+        )
+
+    # Exercise 8, I suppose
+    print('*** After adding new unique ID')
+    df.show(n=5)
+    df.printSchema()
 
     spark.stop()
+
+# UNIT TESTS
+# XXX THIS IS NOT BEST PRACTICE.
+# Functionality and test cases should be separated into classes.
+import unittest
+class TestIngestTransform(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = setup_spark_session()
+
+    def test_ingest(self):
+        # XXX TODO Adjust this to your environment
+        path_csv_file = '../data/input/spark/Restaurants_in_Wake_County.csv'
+        df = read_file_source(self.spark, path_csv_file)
+        self.assertGreater(len(df.columns), 0)
+        self.assertGreaterEqual(df.count(), 0)
