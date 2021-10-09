@@ -18,7 +18,7 @@ import org.junit.Test;
 public class AppTest {
     // Adopt to your local setup: /Users/martin/Software/FHSTP/repos
     String pathCSVFile = "/Users/martin/Software/FHSTP/repos/bdt-2021/data/input/spark/Restaurants_in_Wake_County.csv";
-    String pathJSONFile = "";
+    String pathJSONFile = "/Users/martin/Software/FHSTP/repos/bdt-2021/data/input/spark/Restaurants_in_Durham_County_NC.json";
 
     IngestionSchemaManipulationApp cut;
     SparkSession spark;
@@ -40,6 +40,15 @@ public class AppTest {
     @Test
     public void shouldIngestCSV() {
         Dataset<Row> df = cut.ingestCSV(spark, pathCSVFile);
+        assertThat(df, is(notNullValue()));
+
+        assertThat((int) df.count(), is(greaterThan(0)));
+    }
+
+    @Test
+    public void shouldIngestJSON() {
+        Dataset<Row> df = cut.ingestJSON(spark, pathJSONFile);
+
         assertThat(df, is(notNullValue()));
 
         assertThat((int) df.count(), is(greaterThan(0)));
