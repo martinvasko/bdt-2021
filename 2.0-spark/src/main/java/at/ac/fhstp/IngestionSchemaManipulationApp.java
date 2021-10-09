@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
 
 public class IngestionSchemaManipulationApp {
 
-    public void ingestCSVFile(String source) {
+    public void start(String source) {
 
     }
 }
