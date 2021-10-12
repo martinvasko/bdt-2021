@@ -1,0 +1,15 @@
+# Created at 2021-10-12T11:30:44.518
+WARNING: An illegal reflective access operation has occurred
+
+# Created at 2021-10-12T11:30:44.519
+WARNING: Illegal reflective access by org.apache.spark.unsafe.Platform (file:/Users/martin/.m2/repository/org/apache/spark/spark-unsafe_2.12/3.0.1/spark-unsafe_2.12-3.0.1.jar) to constructor java.nio.DirectByteBuffer(long,int)
+
+# Created at 2021-10-12T11:30:44.523
+WARNING: Please consider reporting this to the maintainers of org.apache.spark.unsafe.Platform
+
+# Created at 2021-10-12T11:30:44.524
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+
+# Created at 2021-10-12T11:30:44.524
+WARNING: All illegal access operations will be denied in a future release
+
