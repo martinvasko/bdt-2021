@@ -10,21 +10,24 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest {
+public class UnionAppTest {
     // Adopt to your local setup: /Users/martin/Software/FHSTP/repos
     String pathCSVFile = "/Users/martin/Software/FHSTP/repos/bdt-2021/data/input/spark/Restaurants_in_Wake_County.csv";
     String pathJSONFile = "/Users/martin/Software/FHSTP/repos/bdt-2021/data/input/spark/Restaurants_in_Durham_County_NC.json";
 
-    IngestionSchemaManipulationApp cut;
+    UnionApp cut;
+    IngestionSchemaManipulationApp ingest;
+    Dataset<Row> wakeDf;
+    Dataset<Row> durhamDf;
     SparkSession spark;
 
     @Before
     public void tearUp() {
-        spark = SparkSession.builder().appName("Restaurants in Wake County, NC").master("local").getOrCreate();
-        cut = new IngestionSchemaManipulationApp();
+        spark = SparkSession.builder().appName("Union Test App").master("local").getOrCreate();
+        ingest = new IngestionSchemaManipulationApp();
+        wakeDf = ingest.ingestCSV(spark, pathCSVFile);
+        durhamDf = ingest.ingestJSON(spark, pathJSONFile);
+        cut = new UnionApp();
     }
 
     @After
@@ -33,19 +36,15 @@ public class AppTest {
     }
 
     @Test
-    public void shouldIngestCSV() {
-        Dataset<Row> df = cut.ingestCSV(spark, pathCSVFile);
+    public void shouldUnionDFs() {
+        Dataset<Row> df = cut.union(wakeDf, durhamDf);
         assertThat(df, is(notNullValue()));
-
-        assertThat((int) df.count(), is(greaterThan(0)));
     }
 
     @Test
-    public void shouldIngestJSON() {
-        Dataset<Row> df = cut.ingestJSON(spark, pathJSONFile);
-
-        assertThat(df, is(notNullValue()));
-
-        assertThat((int) df.count(), is(greaterThan(0)));
+    public void shouldUnionAll() {
+        Dataset<Row> df = cut.union(durhamDf, wakeDf);
+        assertThat((int) df.count(), is(5668));
     }
+
 }
