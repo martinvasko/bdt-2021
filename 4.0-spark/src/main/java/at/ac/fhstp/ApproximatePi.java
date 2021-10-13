@@ -54,12 +54,19 @@ public class ApproximatePi implements Serializable {
     long t1 = System.currentTimeMillis();
     System.out.println("Initial dataframe built in " + (t1 - t0) + " ms");
 
-    Dataset<Integer> dartsDs = incrementalDf.map(new DartMapper(), Encoders.INT());
-
+    Dataset<Integer> dotsDs = incrementalDf.map((MapFunction<Row, Integer>) status -> {
+      double x = Math.random() * 2 - 1;
+      double y = Math.random() * 2 - 1;
+      counter++;
+      if (counter % 100000 == 0) {
+        System.out.println("" + counter + " darts thrown so far");
+      }
+      return (x * x + y * y <= 1) ? 1 : 0;
+    }, Encoders.INT());
     long t2 = System.currentTimeMillis();
     System.out.println("Throwing darts done in " + (t2 - t1) + " ms");
+    int dartsInCircle = dotsDs.reduce((ReduceFunction<Integer>) (x, y) -> x + y);
 
-    int dartsInCircle = dartsDs.reduce(new DartReducer());
     long t3 = System.currentTimeMillis();
     System.out.println("Analyzing result in " + (t3 - t2) + " ms");
 
