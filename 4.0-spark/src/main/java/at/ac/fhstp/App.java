@@ -12,14 +12,9 @@ import org.apache.spark.sql.Row;
  */
 public class App {
     public static void main(String[] args) {
-        System.out.println("Running Ingestion");
-        if (args.length == 0) {
-            System.out.println("No files provided.");
-            System.exit(0);
-        }
-        SparkSession spark = SparkSession.builder().appName("Approximate Pi").master("local[*]")
-                .getOrCreate();
-       ApproximatePi app = new ApproximatePi();
+        SparkSession spark = SparkSession.builder().appName("Approximate Pi").master("local[*]").getOrCreate();
+        ApproximatePi app = new ApproximatePi();
+        app.start(spark, 10);
         spark.stop();
     }
 }
