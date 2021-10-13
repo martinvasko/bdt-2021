@@ -2,15 +2,10 @@ package at.ac.fhstp;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 /**
  * Unit test for simple App.
