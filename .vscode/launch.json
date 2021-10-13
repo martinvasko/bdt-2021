@@ -9,7 +9,8 @@
       "name": "Launch App",
       "request": "launch",
       "mainClass": "at.ac.fhstp.App",
-      "projectName": "1.0-spark"
+      "args": "",
+      "projectName": "4.0-spark"
     }
   ]
 }
