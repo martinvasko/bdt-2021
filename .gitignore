@@ -13,3 +13,4 @@ python/bin
 python/lib
 python/share
 python/pyvenv.cfg
+/1.0-spark/1.0-spark.iml
